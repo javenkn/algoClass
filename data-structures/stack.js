@@ -38,7 +38,7 @@ myStack.push(value)
 Create a contains method to check if a value is in the stack:
 myStack.contains('findme')
 => true/false
-What's the time complexity?
+What's the time complexity? O(n)
 
 Create an until method to get the number of pops until you get to a certain value:
 stack values - (first)2-5-7-3-6-9(last)
@@ -50,28 +50,78 @@ What's the time complexity?
 
  */
 
-function Stack(capacity) {
-  // implement me...
+class Stack {
+  constructor(capacity) {
+    this._storage = {};
+    this._count = 0;
+    this._capacity = capacity;
+  }
+
+  push(value) {
+    if(this._count < this._capacity) {
+      this._storage[this._count++] = value;
+    } else {
+      return "Max capacity already reached. Remove element before adding a new one.";
+    }
+  }
+
+  pop () {
+    let val = this._storage[--this._count];
+    delete this._storage[this._count];
+    return val;
+  }
+
+  peek () {
+    return this._storage[this._count - 1];
+  }
+
+  count () {
+    return this._count;
+  }
+
+  contains (value) {
+    for(var prop in this._storage) {
+      if(this._storage[prop] === value) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  until (value) {
+    let counter = 1;
+    for(var i = this._count-1; i >= 0; i--) {
+      if(this._storage[i] === value) {
+        return counter;
+      }
+      counter++;
+    }
+    return "Cannot be found.";
+  }
 }
 
-Stack.prototype.push = function(value) {
-  // implement me...
-};
-// Time complexity:
+// function Stack(capacity) {
+//   // implement me...
+// }
 
-Stack.prototype.pop = function() {
-  // implement me...
-};
-// Time complexity:
+// Stack.prototype.push = function(value) {
+//   // implement me...
+// };
+// // Time complexity:
 
-Stack.prototype.peek = function() {
-  // implement me...
-};
-// Time complexity:
+// Stack.prototype.pop = function() {
+//   // implement me...
+// };
+// // Time complexity:
 
-Stack.prototype.count = function() {
-  // implement me...
-};
+// Stack.prototype.peek = function() {
+//   // implement me...
+// };
+// // Time complexity:
+
+// Stack.prototype.count = function() {
+//   // implement me...
+// };
 // Time complexity:
 
 
