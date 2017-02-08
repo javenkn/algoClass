@@ -50,6 +50,8 @@ What's the time complexity?
 
  */
 
+"use strict";
+
 class Stack {
   constructor(capacity) {
     this._storage = {};
@@ -57,29 +59,30 @@ class Stack {
     this._capacity = capacity;
   }
 
-  push(value) {
+  push(value) { // Time complexity: O(1)
     if(this._count < this._capacity) {
       this._storage[this._count++] = value;
     } else {
       return "Max capacity already reached. Remove element before adding a new one.";
     }
+    return this._count;
   }
 
-  pop () {
+  pop () { // Time complexity: O(1)
     let val = this._storage[--this._count];
     delete this._storage[this._count];
     return val;
   }
 
-  peek () {
+  peek () { // Time complexity: O(1)
     return this._storage[this._count - 1];
   }
 
-  count () {
+  count () { // Time complexity: O(1)
     return this._count;
   }
 
-  contains (value) {
+  contains (value) { // Time complexity: O(n)
     for(var prop in this._storage) {
       if(this._storage[prop] === value) {
         return true;
@@ -88,7 +91,7 @@ class Stack {
     return false;
   }
 
-  until (value) {
+  until (value) { // Time complexity: O(n)
     let counter = 1;
     for(var i = this._count-1; i >= 0; i--) {
       if(this._storage[i] === value) {
@@ -100,6 +103,71 @@ class Stack {
   }
 }
 
+let myStack = new Stack(3);
+console.log(myStack.push('a'), 'should be 1');
+console.log(myStack.push('b'), 'should be 2');
+console.log(myStack.push('c'), 'should be 3');
+console.log(myStack.push('d'), 'should be Max capacity reached');
+console.log(myStack.pop(), 'should be c');
+console.log(myStack.count(), 'should be 2');
+console.log(myStack.peek(), 'should be b');
+console.log(myStack.count(), 'should be 2');
+
+class MinStack {
+  constructor(capacity) {
+    this._capacity = capacity;
+    this._storage = {};
+    this._count = 0;
+    this._min = new Stack(capacity);
+  }
+
+  push (val) { // Time compmlexity: O(1)
+    if(this._count < this._capacity) {
+      if(this._min.peek() < val) {
+        this._min.push(this._min.peek());
+      } else {
+        this._min.push(val);
+      }
+      this._storage[this._count++] = val;
+      return this._count;
+    }
+    return "Max capacity already reached. Remove element before adding a new one.";
+  }
+
+  pop () { // Time complexity: O(1)
+    this._min.pop();
+    let val = this._storage[--this._count];
+    delete this._storage[this._count];
+    if(this._count < 0) {
+      this._count = 0;
+    }
+    return val;
+  }
+
+  peek () { // Time complexity: O(1)
+    return this._storage[this._count-1];
+  }
+
+  count () { // Time complexity: O(1)
+    return this._count;
+  }
+
+  min () { // Time complexity: O(1)
+    return this._min.peek();
+  }
+}
+
+let minStack = new MinStack(3);
+console.log(minStack.push('b'), 'should be 1');
+console.log(minStack.push('c'), 'should be 2');
+console.log(minStack.push('a'), 'should be 3');
+console.log(minStack.min(), 'should be a');
+console.log(minStack.push('d'), 'should be Max capacity reached');
+console.log(minStack.pop(), 'should be a');
+console.log(minStack.min(), 'should be b');
+console.log(minStack.count(), 'should be 2');
+console.log(minStack.peek(), 'should be c');
+console.log(minStack.count(), 'should be 2');
 // function Stack(capacity) {
 //   // implement me...
 // }
