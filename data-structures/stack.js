@@ -62,10 +62,9 @@ class Stack {
   push(value) { // Time complexity: O(1)
     if(this._count < this._capacity) {
       this._storage[this._count++] = value;
-    } else {
-      return "Max capacity already reached. Remove element before adding a new one.";
+      return this._count;
     }
-    return this._count;
+    return "Max capacity already reached. Remove element before adding a new one.";
   }
 
   pop () { // Time complexity: O(1)
